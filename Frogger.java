@@ -20,7 +20,6 @@ public class Frogger {
 			System.out.println(String.format("Scenario #%d", scenNum));
 			System.out.println(String.format("Frog distance = %.3f\n", 
 						                     shortestPath(nodes)));
-
 			numStones = sc.nextInt();
 			scenNum++;
 		}
@@ -66,17 +65,6 @@ public class Frogger {
 			}
 		}
 		return nodes.get(1).distFromSource;
-	}
-
-	private static void pri(String str) {
-		System.out.println(str);
-	}
-
-	private static void printNodes(ArrayList<Node> nodes) {
-		for(Node n : nodes) {
-			pri(String.format("ID: %d", n.id));
-			pri(String.format("dist: %f", n.distFromSource));
-		}
 	}
 
 	private static class Node {
