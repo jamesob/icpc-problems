@@ -15,18 +15,17 @@ public class Frogger {
         int scenNum = 1;
 
         while(numStones != 0) {
-
             ArrayList<Node> nodes = readCase(sc, numStones);
-            System.out.println(String.format("Scenario #%d", scenNum));
-            System.out.println(String.format("Frog distance = %.3f\n", 
-                                             shortestPath(nodes)));
+            System.out.printf("Scenario #%d\n", scenNum);
+            System.out.printf("Frog Distance = %.3f\n\n", shortestPath(nodes));
+
             numStones = sc.nextInt();
             scenNum++;
         }
     }
 
     private static ArrayList<Node> readCase(Scanner sc, int numStones) {
-        int x; int y;
+        int x, y;
         ArrayList<Node> nodes = new ArrayList<Node>();
 
         for(int i=0; i<numStones; i++) {
@@ -35,13 +34,12 @@ public class Frogger {
             nodes.add(new Node(x, y, Float.MAX_VALUE, i));
         }
 
-        nodes.get(0).distFromSource = 0; // this is source
+        nodes.get(0).maxLeap = 0; // this is source
         return nodes;
     }
 
     private static double shortestPath(ArrayList<Node> nodes) {
-        Comparator<Node> comp = new NodeComparator();
-        PriorityQueue<Node> pq = new PriorityQueue<Node>(nodes.size(), comp);
+        PriorityQueue<Node> pq = new PriorityQueue<Node>(nodes);
         Node curr;
         double w;
         double newDist;
@@ -55,28 +53,26 @@ public class Frogger {
                 if(n.id == curr.id) // skip curr
                     continue; 
                 w       = n.getDist(curr);
-                newDist = Math.max(w, curr.distFromSource);
+                newDist = Math.max(w, curr.maxLeap);
 
-                if(newDist < n.distFromSource) {
+                if(newDist < n.maxLeap) {
                     pq.remove(n);
-                    n.distFromSource = newDist;
+                    n.maxLeap = newDist;
                     pq.add(n);
                 }
             }
         }
-        return nodes.get(1).distFromSource;
+        return nodes.get(1).maxLeap;
     }
 
-    private static class Node {
-        public int x;
-        public int y;
-        public int id;
-        public double distFromSource;
+    private static class Node implements Comparable<Node> {
+        public int x, y, id;
+        public double maxLeap;
 
         public Node(int xinit, int yinit, double distS, int ind) {
             x = xinit;
             y = yinit;
-            distFromSource = distS;
+            maxLeap = distS;
             id = ind;
         }
 
@@ -85,15 +81,12 @@ public class Frogger {
             int yo = other.y;
             return Math.sqrt((xo-x)*(xo-x) + (yo-y)*(yo-y));
         }
-    }
 
-    private static class NodeComparator implements Comparator<Node> {
-        public int compare(Node a, Node b) {
-            if(a.distFromSource < b.distFromSource) return -1;
-            else if(a.distFromSource == b.distFromSource) return 0;
+        public int compareTo(Node other) {
+            if(maxLeap < other.maxLeap) return -1;
+            else if(maxLeap == other.maxLeap) return 0;
             else return 1;
         }
     }
-
 }
     
