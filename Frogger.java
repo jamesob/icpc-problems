@@ -3,6 +3,7 @@
 // tags: dijkstra's, minimax, frogs
 // 
 // by jamesob
+//    thanks to Vo for spotting an all-important mistake
 
 import java.util.*;
 
