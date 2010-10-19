@@ -67,7 +67,7 @@ public class TravPoli {
         int sToD; // is there a path from source -> dest of length i?
         int[][] origMat = mat.clone();
 
-		/* `mat` initially gives us all paths of length 2 */
+        /* `mat` initially gives us all paths of length 2 */
         for(int pathLen=2; pathLen<=22; pathLen++) {
             sToD = mat[0][mat.length - 1]; // mat[0][n-1]
             if(sToD == 1 && pathLen >= minSpeeches)
