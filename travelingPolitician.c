@@ -1,3 +1,12 @@
+/*
+ * Traveling Politician
+ * 10543
+ * tags: graph, powers of adjacency matrix, single source
+ * accepted with time 0.028s
+ *
+ * by jamesob
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h> /* memset */
@@ -39,10 +48,10 @@ int campaign(int **mat, int minSpeeches, int n) {
         memcpy(orig_mat[i], mat[i], n * sizeof(int));
 
     for(path_len = 2; path_len <= 22; path_len++) {
-        s_to_d = mat[0][n - 1];
+        s_to_d = mat[0][n - 1]; /* path from source->dest? */
         if(s_to_d == 1 && path_len >= minSpeeches)
             return path_len;
-        mat = adjMatrixMult(orig_mat, mat, n);
+        mat = adjMatrixMult(orig_mat, mat, n); /* A^(path_len-1) * A */
     }
     return -1; /* loser */
 }
