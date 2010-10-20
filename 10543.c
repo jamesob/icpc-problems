@@ -13,7 +13,7 @@
 
 
 /* return a square matrix */
-int **sqMatrix(int n) {
+int sqMatrix(int n) {
     int i;
     int **mat = malloc(n * sizeof(int *));
     for(i=0; i<n; i++) {
@@ -40,7 +40,7 @@ int **adjMatrixMult(int **A, int **B, int n)
     return C;
 } 
 
-int campaign(int **mat, int minSpeeches, int n) {
+int campaign(int **mat, int min, int n) {
     int s_to_d, i, path_len;
     int **orig_mat = sqMatrix(n);
 
@@ -49,7 +49,7 @@ int campaign(int **mat, int minSpeeches, int n) {
 
     for(path_len = 2; path_len <= 22; path_len++) {
         s_to_d = mat[0][n - 1]; /* path from source->dest? */
-        if(s_to_d == 1 && path_len >= minSpeeches)
+        if(s_to_d == 1 && path_len >= min)
             return path_len;
         mat = adjMatrixMult(orig_mat, mat, n); /* A^(path_len-1) * A */
     }
@@ -62,7 +62,7 @@ int **getCase(int numC, int numR)
     int i, r, c;
     int **mat = sqMatrix(numC);
     for(i=0; i<numR; i++) {
-        fscanf(stdin, "%d %d\n", &r, &c);
+        scanf("%d %d\n", &r, &c);
         mat[r][c] = 1;
     }
     return mat;
@@ -70,21 +70,16 @@ int **getCase(int numC, int numR)
 
 int main(int argc, const char *argv[])
 {
-    int numCities, numRoads, minSpeeches = -1;
-    int i, j, answer;
+    int cities, roads, min, i, j, answer;
     int **adj_mat;
 
-    while(1) {
-        fscanf(stdin, "%d %d %d\n", &numCities, &numRoads, &minSpeeches);
-        if(numCities == 0)
-            break;
-        
-        adj_mat = getCase(numCities, numRoads);
-        answer  = campaign(adj_mat, minSpeeches, numCities);
+    while(scanf("%d %d %d\n", &cities, &roads, &min) == 3 && cities != 0) {
+        adj_mat = getCase(cities, roads);
+        answer  = campaign(adj_mat, min, cities);
 
         if(answer != -1)
             printf("%d\n", answer);
-        else
+        else 
             printf("LOSER\n");
     }
     return 0;
