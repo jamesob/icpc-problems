@@ -13,7 +13,7 @@
 
 
 /* return a square matrix */
-int sqMatrix(int n) {
+int **sqMatrix(int n) {
     int i;
     int **mat = malloc(n * sizeof(int *));
     for(i=0; i<n; i++) {
